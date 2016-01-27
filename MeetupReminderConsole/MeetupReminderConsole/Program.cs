@@ -54,6 +54,7 @@ namespace MeetupReminderConsole
             Console.WriteLine();
             Console.WriteLine(message);
             SmsService.SendSms(toNum, message);
+            SmsService.Call(toNum, "http://demo.twilio.com/welcome/voice/");
 
             Console.ReadLine();
         }

@@ -17,5 +17,11 @@ namespace MeetupReminderConsole.Core.Services
             var twilio = new Twilio.TwilioRestClient(TwilioKey, TwilSecret);
             twilio.SendMessage(FromNumber, to, message);
         }
+
+        public static void Call(string to, string message)
+        {
+            var twilio = new Twilio.TwilioRestClient(TwilioKey, TwilSecret);
+            var call = twilio.InitiateOutboundCall(FromNumber, to, message);
+        }
     }
 }
