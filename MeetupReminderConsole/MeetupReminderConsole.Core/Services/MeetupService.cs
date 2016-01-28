@@ -20,6 +20,7 @@ namespace MeetupReminderConsole.Core.Services
             var meetupServiceProvider = new MeetupServiceProvider(MeetupApiKey, MeetupSecretKey);
             //OAuth Dance//
             var oauthToken = meetupServiceProvider.OAuthOperations.FetchRequestTokenAsync("oob", null).Result;
+            Console.WriteLine(oauthToken.GetType().ToString());
             var authenticateUrl = meetupServiceProvider.OAuthOperations.BuildAuthorizeUrl(oauthToken.Value, null);
             Process.Start(authenticateUrl);
 

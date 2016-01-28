@@ -5,8 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MeetupReminder"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="288.513" Width="625.901">
     <Grid>
-        
+        <TextBox x:Name="textBoxPhone" HorizontalAlignment="Left" Height="23" Margin="10,44,0,0" TextWrapping="Wrap" Text="+18609226167" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="textBoxMeetupGroup" HorizontalAlignment="Left" Height="39" Margin="10,86,0,0" TextWrapping="Wrap" Text="Origin-Code-Academy-Meetup" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="buttonStep1" Content="Step 1" HorizontalAlignment="Left" Margin="10,143,0,0" VerticalAlignment="Top" Width="120" Click="button_Click"/>
+        <TextBox x:Name="textBoxPIN" HorizontalAlignment="Left" Height="23" Margin="10,183,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="buttonPinSubmit" Content="Step 2" HorizontalAlignment="Left" Margin="10,224,0,0" VerticalAlignment="Top" Width="120" Click="buttonPinSubmit_Click"/>
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120"/>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="154,10,0,0" VerticalAlignment="Top" Height="234" Width="451"/>
+
     </Grid>
 </Window>
