@@ -16,6 +16,7 @@ using MeetupReminder.Core;
 using MeetupReminder.Core.Services;
 using MeetupReminder.Core.Domain;
 using Spring.Social.OAuth1;
+using System.Collections.ObjectModel;
 
 namespace MeetupReminder
 {
@@ -29,10 +30,24 @@ namespace MeetupReminder
             InitializeComponent();
             comboBox.ItemsSource = Reference.queryType;
             buttonPinSubmit.Opacity = 0;
-            textBoxPIN.Opacity = 0; 
+            textBoxPIN.Opacity = 0;
+
+            dataGrid.IsReadOnly = true;
+            dataGrid.Columns.Add(addColumn("Name", "name"));
+            dataGrid.Columns.Add(addColumn("Status", "status"));
+            dataGrid.Columns.Add(addColumn("Time", "time"));
         }
 
         OAuthToken j;
+
+        public DataGridTextColumn addColumn(string header, string source)
+        {
+            DataGridTextColumn x = new DataGridTextColumn();
+            x.Header = header;
+            x.Binding = new Binding(source);
+            return x;
+        }
+
 
         public async void button_Click(object sender, RoutedEventArgs e)
         {
@@ -58,17 +73,22 @@ namespace MeetupReminder
             textBoxPIN.IsEnabled = false;
             textBoxPIN.Opacity = 0;
             OAuthToken u = await MeetupService.authenticate2(j, textBoxPIN.Text);
-            List<string> data = await MeetupService.GetMeetupsFor(textBoxMeetupGroup.Text, comboBox.SelectedItem.ToString(), u);
+            ObservableCollection<MeetupEvent> data = await MeetupService.GetMeetupsFor(textBoxMeetupGroup.Text, comboBox.SelectedItem.ToString(), u);
             dataGrid.ItemsSource = data;
-
+            
             var message = "Here are your requested meetups:";
-
-            foreach (var x in data)
+            ObservableCollection<string> MEvents = new ObservableCollection<string>();
+            foreach (var i in data)
+               {
+                   MEvents.Add($"\n\nName: {i.name}\nStatus: {i.status}\nTime: {i.time}");
+               }
+            foreach (var x in MEvents)
             {
-                message += "\nMeetup for you - " + x;
+                message += x;
             }
 
-            SmsService.SendSms(textBoxPhone.Text, message);
+            SmsService.SendSms(textBoxPhone.Text, message); //Issues if the message gets too long, won't arrive via SMS
+       
             SmsService.Call(textBoxPhone.Text, "http://demo.twilio.com/welcome/voice/");
 
 

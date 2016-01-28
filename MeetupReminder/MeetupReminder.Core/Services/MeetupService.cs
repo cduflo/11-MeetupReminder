@@ -8,6 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using MeetupReminder;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json;
+using MeetupReminder.Core.Domain;
+using System.Collections.ObjectModel;
 
 namespace MeetupReminder.Core.Services
 {
@@ -36,7 +40,7 @@ namespace MeetupReminder.Core.Services
             return oathAccessToken;
         }
 
-        public static async Task<List<string>> GetMeetupsFor(string uservar, string toggle, OAuthToken token)
+        public static async Task<ObservableCollection<MeetupEvent>> GetMeetupsFor(string uservar, string toggle, OAuthToken token)
         {
             var meetupServiceProvider = new MeetupServiceProvider(MeetupApiKey, MeetupSecretKey);
             var meetup = meetupServiceProvider.GetApi(token.Value, token.Secret);
@@ -49,11 +53,16 @@ namespace MeetupReminder.Core.Services
             {
                 json = await meetup.RestOperations.GetForObjectAsync<string>($"https://api.meetup.com/2/concierge?zip={uservar}&offset=0&format=json&photo-host=public&page=500&sig_id=182757480&sig=199b985b4335074f44fbe4697f34f1ff7026bf50");
             }
-            var oEvents = JObject.Parse(json)["results"];
-            List<string> MEvents = new List<string>();
-            foreach (var oEvent in oEvents)
+            EventReturn j = JsonConvert.DeserializeObject<EventReturn>(json);
+            /*   ObservableCollection<string> MEvents = new ObservableCollection<string>();
+               foreach (var i in j.results)
+               {
+                   MEvents.Add($"\nName: {i.name}\nStatus: {i.status}\nTime: {i.time}");
+               }*/
+            ObservableCollection<MeetupEvent> MEvents = new ObservableCollection<MeetupEvent>();
+            foreach (var i in j.results)
             {
-                MEvents.Add(oEvent["name"].ToString());
+                MEvents.Add(i);
             }
 
             return MEvents;

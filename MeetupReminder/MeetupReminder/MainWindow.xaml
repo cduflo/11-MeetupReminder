@@ -13,7 +13,7 @@
         <TextBox x:Name="textBoxPIN" HorizontalAlignment="Left" Height="23" Margin="10,183,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="buttonPinSubmit" Content="Step 2" HorizontalAlignment="Left" Margin="10,224,0,0" VerticalAlignment="Top" Width="120" Click="buttonPinSubmit_Click"/>
         <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="120"/>
-        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="154,10,0,0" VerticalAlignment="Top" Height="234" Width="451"/>
+        <DataGrid x:Name="dataGrid" HorizontalAlignment="Left" Margin="154,10,0,0" VerticalAlignment="Top" Height="234" Width="451" AutoGenerateColumns="False"/>
 
     </Grid>
 </Window>
